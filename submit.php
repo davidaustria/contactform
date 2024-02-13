@@ -17,7 +17,8 @@ if (empty($_POST['g-recaptcha-response'])) {
 }
 
 $recaptcha = new \ReCaptcha\ReCaptcha(CONTACTFORM_RECAPTCHA_SECRET_KEY);
-$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_REQUEST['REMOTE_ADDR']);
+$remoteIp = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '127.0.0.1';
+$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $remoteIp);
 
 if (!$resp->isSuccess()) {
     $errors = $resp->getErrorCodes();
